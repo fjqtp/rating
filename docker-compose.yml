@@ -1,0 +1,93 @@
+version: "3"
+
+networks:
+  database:
+  server:
+
+volumes:
+  mysql-data:
+
+services:
+  php:
+    build: .
+    container_name: php
+    volumes:
+      - ./site:/site:cached
+    restart: always
+    networks:
+      - database
+      - server
+    depends_on:
+      - mysql
+    working_dir: /site
+    command: /bin/bash -c "composer install && php-fpm"
+
+  php-api:
+    build: .
+    container_name: php-api
+    volumes:
+      - ./api:/api:cached
+    restart: always
+    networks:
+      - database
+      - server
+    working_dir: /api
+    depends_on:
+      - mysql
+    command: /bin/bash -c "composer install && php-fpm"
+
+  mysql:
+    image: mysql:8.0.18
+    volumes:
+      - mysql-data:/var/lib/mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    networks:
+      - database
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+      MYSQL_DATABASE: test
+    command: mysqld --sql_mode="" --default-authentication-plugin=mysql_native_password
+    #--default-authentication-plugin=mysql_native_password
+
+  nginx:
+    image: nginx
+    container_name: nginx
+    volumes:
+      - ./site:/site:ro
+      - ./api:/api:ro
+      - ./default.template.conf:/etc/nginx/conf.d/mysite.template
+    restart: always
+    ports:
+      - "80:80"
+    environment:
+      - NGINX_HOST=rating
+    command: /bin/bash -c "envsubst '${NGINX_HOST}' < /etc/nginx/conf.d/mysite.template > /etc/nginx/conf.d/default.conf && exec nginx -g 'daemon off;'"
+    networks:
+      - server
+    depends_on:
+      - php
+
+  npm:
+    image: node:8
+    depends_on:
+      - php
+    volumes:
+      - ./site:/home/node/app
+    container_name: npm
+    working_dir: /home/node/app
+    #command: /bin/bash -c "npm install && npm fund && npm audit fix && npm rebuild node-sass && ./node_modules/gulp-cli/bin/gulp.js"
+    command: ./node_modules/gulp-cli/bin/gulp.js
+
+  bower:
+    image: fstab/bower
+    depends_on:
+      - php
+    volumes:
+      - ./site:/home/bower/workspace
+    container_name: bower
+    working_dir: /home/bower
