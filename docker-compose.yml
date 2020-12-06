@@ -80,8 +80,8 @@ services:
       - ./site:/home/node/app
     container_name: npm
     working_dir: /home/node/app
-    #command: /bin/bash -c "npm install && npm fund && npm audit fix && npm rebuild node-sass && ./node_modules/gulp-cli/bin/gulp.js"
-    command: ./node_modules/gulp-cli/bin/gulp.js
+    command: /bin/bash -c "npm install && npm fund && npm audit fix && ./node_modules/gulp-cli/bin/gulp.js"
+    #command: ./node_modules/gulp-cli/bin/gulp.js
 
   bower:
     image: fstab/bower
