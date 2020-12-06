@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+ssh -o PasswordAuthentication=no git@gl.appris.by
+
+if [ $? -ne 0 ]; then
+    echo "Can't connect to gl.appris.by. Probably you don't have ssh key?"
+    exit
+fi
+
 cd site/
 git clone git@gl.appris.by:rating_mak/chgk_rating.git .
 cp .env.example .env
