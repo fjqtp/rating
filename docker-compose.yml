@@ -9,7 +9,9 @@ volumes:
 
 services:
   php:
-    build: .
+    build:
+      context: .
+      dockerfile: ./Dockerfile
     container_name: php
     volumes:
       - ./site:/site:cached
@@ -20,10 +22,12 @@ services:
     depends_on:
       - mysql
     working_dir: /site
-    command: /bin/bash -c "composer install && php-fpm"
+    command: /bin/bash -c "npm install && ./node_modules/bower/bin/bower install --allow-root && ./node_modules/gulp-cli/bin/gulp.js && composer install && php-fpm"
 
   php-api:
-    build: .
+    build:
+      context: .
+      dockerfile: ./Dockerfile_api
     container_name: php-api
     volumes:
       - ./api:/api:cached
@@ -71,23 +75,3 @@ services:
       - server
     depends_on:
       - php
-
-  npm:
-    image: node:8
-    depends_on:
-      - php
-    volumes:
-      - ./site:/home/node/app
-    container_name: npm
-    working_dir: /home/node/app
-    command: /bin/bash -c "npm install && npm fund && npm audit fix && ./node_modules/gulp-cli/bin/gulp.js"
-    #command: ./node_modules/gulp-cli/bin/gulp.js
-
-  bower:
-    image: fstab/bower
-    depends_on:
-      - php
-    volumes:
-      - ./site:/home/bower/workspace
-    container_name: bower
-    working_dir: /home/bower
