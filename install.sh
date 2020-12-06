@@ -9,6 +9,6 @@ sudo chmod -R 777 var/
 cd ..
 cd api/
 git clone git@gl.appris.by:rating_mak/api.git .
-cp .env.example .env
+cp .env.dev.local.example .env.dev.local
 mkdir var/cache/dev/
 sudo chmod -R 777 var/
