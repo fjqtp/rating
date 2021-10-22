@@ -1,4 +1,4 @@
-FROM php:7.4.2-fpm
+FROM php:8.0-fpm
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \
@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libicu-dev \
     libzip-dev \
-    zlibc \
+#    zlib \
     zlib1g \
   && docker-php-ext-install zip \
   && docker-php-ext-configure intl \
