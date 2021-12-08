@@ -15,7 +15,7 @@ services:
     container_name: php
     volumes:
       - ./site:/site:cached
-    restart: always
+    restart: unless-stopped
     networks:
       - database
       - server
@@ -31,7 +31,7 @@ services:
     container_name: php-api
     volumes:
       - ./api:/api:cached
-    restart: always
+    restart: unless-stopped
     networks:
       - database
       - server
@@ -40,11 +40,14 @@ services:
       - mysql
     command: /bin/bash -c "composer install && php-fpm"
 
+  #admin:
+
+
   mysql:
     image: mysql:8.0.18
     volumes:
       - mysql-data:/var/lib/mysql
-    restart: always
+    restart: unless-stopped
     ports:
       - "3306:3306"
     networks:
@@ -65,7 +68,7 @@ services:
       - ./site:/site:ro
       - ./api:/api:ro
       - ./default.template.conf:/etc/nginx/conf.d/mysite.template
-    restart: always
+    restart: unless-stopped
     ports:
       - "80:80"
     environment:
