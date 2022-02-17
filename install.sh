@@ -10,12 +10,12 @@ fi
 cd site/
 git clone git@gl.appris.by:rating_mak/chgk_rating.git .
 cp .env.example .env
-mkdir var/cache/dev/
+mkdir -p var/cache/dev/
 sudo chmod -R 777 var/
 
 cd ..
 cd api/
 git clone git@gl.appris.by:rating_mak/api.git .
 cp .env.dev.local.example .env.dev.local
-mkdir var/cache/dev/
+mkdir -p var/cache/dev/
 sudo chmod -R 777 var/
