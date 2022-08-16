@@ -5,4 +5,3 @@
 
 # База данных
 1. ```docker exec -i mysql mysql -uroot -prootpassword test < dump-2020-08-24_03-47.sql``` (dump базы данных спросите у бывалых)
-1. ```docker exec -i mysql mysql -uroot -prootpassword test < dump-addon.sql``` (dump-addon.sql лежит в корне проекта)
