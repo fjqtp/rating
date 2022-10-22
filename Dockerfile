@@ -20,9 +20,10 @@ RUN apt-get update && apt-get install -y \
   && docker-php-ext-install gd
 
 RUN curl -sL https://getcomposer.org/installer | php -- --install-dir /usr/bin --filename composer
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
 
-RUN apt install -y nodejs npm python3
+RUN apt install -y npm python3 python2
+RUN npm install -g gulp-cli
 RUN ln -s /usr/bin/python3.9 /usr/bin/python
 
 #RUN ln -s /usr/bin/nodejs /usr/bin/node
