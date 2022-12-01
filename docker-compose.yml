@@ -44,7 +44,7 @@ services:
 
 
   mysql:
-    image: mariadb:latest
+    image: mysql:latest
     volumes:
       - mysql-data:/var/lib/mysql
     restart: unless-stopped
