@@ -67,13 +67,10 @@ services:
     volumes:
       - ./site:/site:ro
       - ./api:/api:ro
-      - ./default.template.conf:/etc/nginx/conf.d/mysite.template
+      - ./default.template.conf:/etc/nginx/conf.d/mysite.template.conf
     restart: unless-stopped
     ports:
       - "80:80"
-    environment:
-      - NGINX_HOST=rating
-    command: /bin/bash -c "envsubst '${NGINX_HOST}' < /etc/nginx/conf.d/mysite.template > /etc/nginx/conf.d/default.conf && exec nginx -g 'daemon off;'"
     networks:
       - server
     depends_on:
