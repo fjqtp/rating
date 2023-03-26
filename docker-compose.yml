@@ -58,8 +58,7 @@ services:
       MYSQL_USER: test
       MYSQL_PASSWORD: test
       MYSQL_DATABASE: test
-    command: mysqld --sql_mode="" --default-authentication-plugin=mysql_native_password
-    #--default-authentication-plugin=mysql_native_password
+    command: mysqld --sql_mode=""
 
   nginx:
     image: nginx
