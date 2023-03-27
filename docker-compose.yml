@@ -58,7 +58,7 @@ services:
       MYSQL_USER: test
       MYSQL_PASSWORD: test
       MYSQL_DATABASE: test
-    command: mysqld --sql_mode=""
+    command: mysqld --sql_mode="NO_ZERO_DATE,NO_ZERO_IN_DATE"
 
   nginx:
     image: nginx
