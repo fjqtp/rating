@@ -22,7 +22,7 @@ services:
     depends_on:
       - mysql
     working_dir: /site
-    command: /bin/bash -c "npm install && ./node_modules/bower/bin/bower install --allow-root && ./node_modules/gulp-cli/bin/gulp.js && composer install && php-fpm"
+    command: /bin/bash -c "composer install && yarn install && yarn run dev && php-fpm"
 
   php-api:
     build:
